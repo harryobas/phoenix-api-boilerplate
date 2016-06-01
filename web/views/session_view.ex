@@ -14,6 +14,6 @@ defmodule FenixApi.SessionView do
   end
 
   def render("error.json", _anything) do
-    %{errors: "kiiiu"}
+    %{errors: "Authentication Fail"}
   end
 end

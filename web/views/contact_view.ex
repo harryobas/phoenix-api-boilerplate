@@ -11,6 +11,7 @@ defmodule FenixApi.ContactView do
 
   def render("contact.json", %{contact: contact}) do
     %{id: contact.id,
+      user_id: contact.user_id,
       fullname: contact.fullname,
       email: contact.email,
       code_area: contact.code_area,
