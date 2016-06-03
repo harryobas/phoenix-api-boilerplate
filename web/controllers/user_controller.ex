@@ -19,4 +19,9 @@ defmodule FenixApi.UserController do
         |> render(FenixApi.ChangesetView, "error.json", changeset: changeset)
     end
   end
+
+  def profile(conn, %{}) do
+    current_user = Guardian.Plug.current_resource(conn)
+    render(conn, "show.json", user: current_user)
+  end
 end

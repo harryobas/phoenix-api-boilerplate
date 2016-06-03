@@ -1,5 +1,6 @@
 defmodule FenixApi.User do
   use FenixApi.Web, :model
+  # @derive {Poison.Encoder, except: [:__meta__]}
 
   schema "users" do
     field :name, :string
