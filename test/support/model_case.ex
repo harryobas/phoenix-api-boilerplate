@@ -26,8 +26,10 @@ defmodule FenixApi.ModelCase do
   end
 
   setup tags do
+    :ok = Ecto.Adapters.SQL.Sandbox.checkout(FenixApi.Repo)
+
     unless tags[:async] do
-      Ecto.Adapters.SQL.restart_test_transaction(FenixApi.Repo, [])
+      Ecto.Adapters.SQL.Sandbox.mode(FenixApi.Repo, {:shared, self()})
     end
 
     :ok

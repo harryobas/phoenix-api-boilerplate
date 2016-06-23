@@ -12,8 +12,8 @@ defmodule FenixApi.Contact do
     timestamps
   end
 
+  @fields ~w(fullname code_area phone_number user_id email observations)
   @required_fields ~w(fullname code_area phone_number user_id)
-  @optional_fields ~w(email observations)
 
   @doc """
   Creates a changeset based on the `model` and `params`.
@@ -21,8 +21,9 @@ defmodule FenixApi.Contact do
   If no params are provided, an invalid changeset is returned
   with no validation performed.
   """
-  def changeset(model, params \\ :empty) do
+  def changeset(model, params \\ %{}) do
     model
-    |> cast(params, @required_fields, @optional_fields)
+    |> cast(params, @fields)
+    |> validate_required([:fullname, :code_area, :phone_number, :user_id])
   end
 end

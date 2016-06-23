@@ -36,3 +36,5 @@ config :guardian, Guardian,
   verify_issuer: true, # optional
   secret_key: "sup3rs3cr3tk3y",
   serializer: FenixApi.Serializer
+
+config :fenix_api, ecto_repos: [FenixApi.Repo]

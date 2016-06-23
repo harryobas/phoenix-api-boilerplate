@@ -10,22 +10,23 @@ defmodule FenixApi.User do
     field :phone_number, :string
     field :password_hash, :string
     field :password, :string, virtual: true
-    has_many :contacts, FenixApi.Contacts
+    has_many :contacts, FenixApi.Contact
 
     timestamps
   end
 
+  @fields ~w(name email company code_area phone_number)
   @required_fields ~w(email)
-  @optional_fields ~w(name company code_area phone_number)
 
-  def changeset(model, params \\ :empty) do
+  def changeset(model, params \\ %{}) do
     model
-    |> cast(params, @required_fields, @optional_fields)
+    |> cast(params, @fields)
+    |> validate_required([:email])
     |> validate_length(:email, min: 1, max: 255)
     |> validate_format(:email, ~r/@/)
   end
 
-  def registration_changeset(model, params \\ :empty) do
+  def registration_changeset(model, params \\ %{}) do
     model
     |> changeset(params)
     |> cast(params, ~w(password), [])

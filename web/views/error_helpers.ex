@@ -26,10 +26,11 @@ defmodule FenixApi.ErrorHelpers do
     #
     #     dngettext "errors", "1 file", "%{count} files", count
     #
-    Gettext.dngettext(FenixApi.Gettext, "errors", msg, msg, opts[:count], opts)
+    if count = opts[:count] do
+      Gettext.dngettext(FenixApi.Gettext, "errors", msg, msg, count, opts)
+    else
+      Gettext.dgettext(FenixApi.Gettext, "errors", msg, opts)
+    end
   end
 
-  def translate_error(msg) do
-    Gettext.dgettext(FenixApi.Gettext, "errors", msg)
-  end
 end
