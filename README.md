@@ -1,5 +1,7 @@
 # Fenix API
 
+[![wercker status](https://app.wercker.com/status/d8a2b6d3f6223ff2359e81ef6f4f7a6c/m "wercker status")](https://app.wercker.com/project/bykey/d8a2b6d3f6223ff2359e81ef6f4f7a6c)
+
 Phoenix API Sample/Boilerplate/Playground
 
 That's me -> [@krawdyah](http://twitter.com/krawdyah)

@@ -43,10 +43,4 @@ defmodule FenixApi.User do
     end
   end
 
-  defp authenticate(user, password) do
-    case user do
-      nil -> false
-      _   -> Comeonin.Bcrypt.checkpw(password, user.crypted_password)
-    end
-  end
 end

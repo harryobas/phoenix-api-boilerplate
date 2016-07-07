@@ -1,0 +1,62 @@
+# This references a standard debian container from the
+# Docker Hub https://registry.hub.docker.com/_/debian/
+# Read more about containers on our dev center
+# http://devcenter.wercker.com/docs/containers/index.html
+box: krawdyah/ci-phoenix
+# You can also use services such as databases. Read more on our dev center:
+# http://devcenter.wercker.com/docs/services/index.html
+# services:
+    # - postgres
+    # http://devcenter.wercker.com/docs/services/postgresql.html
+
+    # - mongo
+    # http://devcenter.wercker.com/docs/services/mongodb.html
+
+# This is the build pipeline. Pipelines are the core of wercker
+# Read more about pipelines on our dev center
+# http://devcenter.wercker.com/docs/pipelines/index.html
+
+services:
+  # http://devcenter.wercker.com/docs/services/postgresql.html
+  # pg_ctl -D /var/lib/postgresql/data -l logfile start
+  - id: postgres
+    env:
+      POSTGRES_PASSWORD: $POSTGRES_PASSWORD
+
+build:
+  # The steps that will be executed on build
+  # Steps make up the actions in your pipeline
+  # Read more about steps on our dev center:
+  # http://devcenter.wercker.com/docs/steps/index.html
+
+  steps:
+    - script:
+        name: test env
+        code: |
+          export MIX_ENV=test
+
+    - script:
+        name: deps
+        code: |
+          mix deps.clean --all
+          yes | mix do deps.get, deps.compile
+
+    - script:
+        name: compile
+        code: |
+          yes | mix compile
+
+    - script: 
+        name: "waiting postgres connection"
+        code: |
+          while ! nc -q 1 $POSTGRES_PORT_5432_TCP_ADDR $POSTGRES_PORT_5432_TCP_PORT </dev/null; do sleep 3; done
+
+    - script:
+        name: test db
+        code: |
+          mix do ecto.create, ecto.migrate
+
+    - script:
+        name: run damn tests
+        code: |
+          mix test
